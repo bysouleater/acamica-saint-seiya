@@ -1,3 +1,7 @@
 .saints-lists {
   font-size: 20px;
 }
+
+#random-saint-display {
+  color: red;
+}
