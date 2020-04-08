@@ -24,6 +24,7 @@ $(function() {
         ' ATK: ' + saint.initialATK +
         ' DEF: ' + saint.initialDEF;
 
+      $('<img src="' + saint.picture + '">').appendTo($saintsListDiv);
       $('<div>').text(saintText).appendTo($saintsListDiv);
     });
   });
