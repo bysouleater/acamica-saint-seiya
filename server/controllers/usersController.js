@@ -54,7 +54,7 @@ const usersController = {
         if (!users.length) return res.status(404).send('User does not exist');
 
         connection.query(
-          'SELECT s.id, s.name, s.picture, usg.qty FROM ' +
+          'SELECT s.id, s.name, s.picture, s.initialMaxHP, s.initialATK, s.initialDEF, usg.qty FROM ' +
           ' (SELECT us.userId, us.saintId, SUM(1) qty ' +
           ' FROM user_saints us ' +
           ' WHERE us.userId = ? ' +
