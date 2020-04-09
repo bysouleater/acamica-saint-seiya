@@ -13,6 +13,7 @@ server.get('/saints', saintsController.getAllSaints);
 server.get('/saints/random', saintsController.getRandomSaint);
 
 server.post('/users/:id/claim', usersController.claimSaintForUser);
+server.get('/users/:id/saints', usersController.getSaintsForUser);
 
 server.listen(port, function () {
   console.log('Saint Seiya Server is running on ' + port);

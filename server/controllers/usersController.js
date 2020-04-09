@@ -5,8 +5,8 @@ const usersController = {
     if (!req.params.id || isNaN(req.params.id)) return res.status(400).send('Invalid user id');
     if (!req.body) return res.status(400).send('Invalid body');
 
-    let userid = parseInt(req.params.id);
-    let saintid = req.body.saint;
+    const userid = parseInt(req.params.id);
+    const saintid = req.body.saint;
 
     if (!saintid) return res.status(400).send('Invalid saint id');
     
@@ -35,6 +35,39 @@ const usersController = {
                 res.status(201).send();
               }
             );
+          }
+        );
+      }
+    );
+  },
+
+  getSaintsForUser: (req, res) => {
+    if (!req.params.id || isNaN(req.params.id)) return res.status(400).send('Invalid user id');
+    
+    const userid = parseInt(req.params.id);
+
+    connection.query(
+      'SELECT * FROM users WHERE id = ?',
+      [userid],
+      (error, users, fields) => {
+        if (error) return console.error(error);
+        if (!users.length) return res.status(404).send('User does not exist');
+
+        connection.query(
+          'SELECT s.id, s.name, s.picture, usg.qty FROM ' +
+          ' (SELECT us.userId, us.saintId, SUM(1) qty ' +
+          ' FROM user_saints us ' +
+          ' WHERE us.userId = ? ' +
+          ' GROUP BY us.userId, us.saintId) usg ' +
+          ' JOIN saints s ON s.id = usg.saintId',
+          [userid],
+          (error, saints, fields) => {
+            if (error) return console.error(error);
+
+            res.json({
+              email: users[0].email,
+              saints: saints
+            });
           }
         );
       }
