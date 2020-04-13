@@ -73,6 +73,53 @@ const usersController = {
         );
       }
     );
+  },
+
+  createUser: (req, res) => {
+    let email = req.body.email;
+    let password = req.body.password;
+
+    connection.query(
+      'INSERT INTO users (email, password) VALUES (?, ?)',
+      [email, password],
+      (error, results, fields) => {
+        if (error) return console.error(error);
+
+        res.status(201).json({message: 'User created successfully'});
+      }
+    );
+  },
+
+  getAllUsers: (req, res) => {
+    connection.query(
+      'SELECT * FROM users',
+      (error, users, fields) => {
+        res.json(users);
+      }
+    )
+  },
+
+  deleteSaintsForUser: (req, res) => {
+    let userid = req.params.id;
+
+    connection.query(
+      'SELECT * FROM users WHERE id = ?',
+      [userid],
+      (error, users, fields) => {
+        if (error) return console.error(error);
+        if (users.length === 0) return res.status(404).send();
+
+        connection.query(
+          'DELETE FROM user_saints WHERE userId = ?',
+          [userid],
+          (error, results, fields) => {
+            if (error) return console.error(error);
+
+            res.status(200).send();
+          }
+        )
+      }
+    );
   }
 };
 
