@@ -59,7 +59,8 @@ const usersController = {
           ' FROM user_saints us ' +
           ' WHERE us.userId = ? ' +
           ' GROUP BY us.userId, us.saintId) usg ' +
-          ' JOIN saints s ON s.id = usg.saintId',
+          ' JOIN saints s ON s.id = usg.saintId ' +
+          ' ORDER BY usg.qty DESC LIMIT 3 ',
           [userid],
           (error, saints, fields) => {
             if (error) return console.error(error);

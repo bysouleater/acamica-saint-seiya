@@ -7,7 +7,8 @@ const saintsController = require('./controllers/saintsController');
 const usersController = require('./controllers/usersController');
 
 server.use(cors());
-server.use(express.json());
+// server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
 
 server.get('/saints', saintsController.getAllSaints);
 server.get('/saints/random', saintsController.getRandomSaint);

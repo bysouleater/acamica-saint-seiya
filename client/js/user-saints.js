@@ -58,18 +58,10 @@ $(function() {
   // Claimear un saint
   $claimSaintButton.click(function (event) {
     const url = getClaimSaintsEndpoint(userId);
-    const body = JSON.stringify({ 'saint': randomSaintId });
+    const body = { 'saint': randomSaintId };
 
-    $.ajax({
-      type: 'POST',
-      url: url,
-      data: body,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      success: function (responseBody) {
-        console.log('El usuario reclamo al saint correctamente');
-      }
+    $.post(url, body, function (responseBody) {
+      console.log('El usuario reclamo al saint correctamente');
     });
   });
 });
