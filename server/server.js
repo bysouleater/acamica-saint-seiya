@@ -19,6 +19,7 @@ server.get('/users/:id/saints', usersController.getSaintsForUser);
 server.delete('/users/:id/saints', usersController.deleteSaintsForUser);
 server.post('/users/:id/claim', usersController.claimSaintForUser);
 server.delete('/users/:id', usersController.deleteUser);
+server.put('/users/:id', usersController.updateUser);
 
 server.listen(port, function () {
   console.log('Saint Seiya Server is running on ' + port);

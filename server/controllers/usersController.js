@@ -143,6 +143,30 @@ const usersController = {
         );
       }
     )
+  },
+
+  updateUser: (req, res) => {
+    let userid = req.params.id;
+    let email = req.body.email;
+
+    connection.query(
+      'SELECT * FROM users WHERE id = ?',
+      [userid],
+      (error, users, fields) => {
+        if (error) return console.error(error);
+        if (users.length === 0) return res.status(404).send('User doesn\'t exists');
+
+        connection.query(
+          'UPDATE users SET email = ? WHERE id = ?',
+          [email, userid],
+          (error, results, fields) => {
+            if (error) return console.error(error);
+
+            res.send('User was updated');
+          }
+        );
+      }
+    )
   }
 };
 

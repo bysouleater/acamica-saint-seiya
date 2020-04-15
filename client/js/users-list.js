@@ -9,7 +9,11 @@ $(function() {
 
   const getDeleteUserEndpoint = function (id) {
     return server + '/users/' + id;
-  }
+  };
+
+  const getUpdateUserEndpoint = function (id) {
+    return server + '/users/' + id;
+  };
 
   // HTML Selectors
   const $usersListDiv = $('#users-lists');
@@ -21,7 +25,7 @@ $(function() {
     data.forEach((user) => {
       const $userTemplate = $userTemplateDiv.find('.col').clone();
 
-      $userTemplate.find('.card-title').text(user.email);
+      $userTemplate.find('#user-email').val(user.email);
       $userTemplate.find('.view-saints a').attr('href', '/client/user.html?id=' + user.id);
 
       // Bind delete saints button
@@ -43,7 +47,23 @@ $(function() {
           success: function() {
             alert('El usuario fue eliminado');
           }
-        })
+        });
+      });
+
+      // Bind update user button
+      $userTemplate.find('#update-user-btn').click(function() {
+        let newEmail = $userTemplate.find('#user-email').val();
+
+        $.ajax({
+          url: getUpdateUserEndpoint(user.id),
+          method: 'PUT',
+          data: {
+            email: newEmail
+          },
+          success: function() {
+            alert('El usuario fue actualizado');
+          }
+        });
       });
       
       $userTemplate.appendTo($usersListDiv);
