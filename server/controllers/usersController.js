@@ -120,6 +120,29 @@ const usersController = {
         )
       }
     );
+  },
+
+  deleteUser: (req, res) => {
+    let userid = req.params.id;
+
+    connection.query(
+      'DELETE FROM users WHERE id = ?',
+      [userid],
+      (error, results, fields) => {
+        if (error) return console.error(error);
+        if (results.affectedRows === 0) return res.status(404).send('User doesn\'t exists');
+
+        connection.query(
+          'DELETE FROM user_saints WHERE userId = ?',
+          [userid],
+          (error, results, fields) => {
+            if (error) return console.error(error);
+
+            return res.send('User was deleted');
+          }
+        );
+      }
+    )
   }
 };
 

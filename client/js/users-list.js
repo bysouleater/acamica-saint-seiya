@@ -7,6 +7,10 @@ $(function() {
     return server + '/users/' + id + '/saints';
   };
 
+  const getDeleteUserEndpoint = function (id) {
+    return server + '/users/' + id;
+  }
+
   // HTML Selectors
   const $usersListDiv = $('#users-lists');
   const $userTemplateDiv = $('#user-template');
@@ -20,6 +24,7 @@ $(function() {
       $userTemplate.find('.card-title').text(user.email);
       $userTemplate.find('.view-saints a').attr('href', '/client/user.html?id=' + user.id);
 
+      // Bind delete saints button
       $userTemplate.find('#delete-saints-btn').click(function() {
         $.ajax({
           url: getDeleteSaintsEndpoint(user.id),
@@ -28,6 +33,17 @@ $(function() {
             alert('El usuario ya no tiene mas saints');
           }
         });
+      });
+
+      // Bind delete user button
+      $userTemplate.find('#delete-user-btn').click(function() {
+        $.ajax({
+          url: getDeleteUserEndpoint(user.id),
+          method: 'DELETE',
+          success: function() {
+            alert('El usuario fue eliminado');
+          }
+        })
       });
       
       $userTemplate.appendTo($usersListDiv);
